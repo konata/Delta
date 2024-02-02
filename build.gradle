@@ -1,0 +1,25 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
+}
+
+group = 'play.ground.sootup'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    maven { url = "https://jitpack.io" }
+    google()
+    mavenCentral()
+}
+
+
+dependencies {
+    "core java.core java.sourcecode java.bytecode callgraph analysis".split(" ").each { implementation "org.soot-oss:sootup.$it:1.1.2" }
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(11)
+}
