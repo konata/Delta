@@ -65,8 +65,7 @@ fun aidl(manufacture: String, identifier: String): Set<String> {
   return aidls
 }
 
-
-fun generateQuantified() {
+fun extract() {
   """tecno14 pixel14beta2 samsung""".split("""\s+""".toRegex()).forEach {
     aidl(it, "framework")
     parcelable(it, "framework")
@@ -74,7 +73,7 @@ fun generateQuantified() {
   }
 }
 
-fun generateDiff() {
+fun writeDiffAIDL() {
   val (tecno, pixel, samsung) = """tecno14 pixel14beta2 samsung""".split("""\s+""".toRegex()).map {
     File("aidl/$it.framework.txt").readLines().toSet()
   }
@@ -82,6 +81,16 @@ fun generateDiff() {
   File("diff/samsung-pixel.aidl").writeText((samsung - pixel).joinToString("\n"))
 }
 
+fun writeDiffParcelable() {
+  val (tecno, pixel, samsung) = """tecno14 pixel14beta2 samsung""".split("""\s+""".toRegex()).map {
+    File("parcelable/$it.framework.txt").readLines().toSet() +
+        File("parcelable/$it.services.txt").readLines().toSet()
+  }
+  File("diff/tecno-pixel.parcelable").writeText((tecno - pixel).joinToString("\n"))
+  File("diff/samsung-pixel.parcelable").writeText((samsung - pixel).joinToString("\n"))
+}
+
+
 fun main() {
-  generateDiff()
+  writeDiffParcelable()
 }
